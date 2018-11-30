@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#Clear screen
+clear && sleep .1
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -11,8 +14,10 @@ NC='\033[0m'
 # Compilation variables
 CC="gcc"
 CFLAGS="-Wall -Werror -Wextra"
-CPPFLAGS="-Iincludes"
-LFLAGS="-L. -lft"
+LIBDIR=~/mydir/projects/libft
+INCLUDE_PATH="${LIBDIR}/includes"
+CPPFLAGS="-I${INCLUDE_PATH}"
+LFLAGS="-L${LIBDIR} -lft"
 COMPILE="${CC} ${CFLAGS} ${CPPFLAGS}"
 
 # Special values
@@ -23,15 +28,29 @@ INT_MAX=2147483647
 OUTDIR=tests_output
 ADD_FCT_COMP="tests_util/ft_init_string.c tests_util/print_bytes.c"
 
+print_error_fmt() {
+	printf "${RED}%s${NC}\n" "$1"
+}
+
 # Display usage
 if [ $# -eq 0 ]; then
-	printf "${RED}%s${NC}\n" "Error: missing argument"
-	printf "${RED}%s${NC}\n" "Usage: ./lib_checker.sh [ function_name | all ] [-v]"
+	printf "${RED}%s${MAGENTA}%s${NC}\n" "Current lib path: " "${LIBDIR}"
+	printf "${RED}%s${MAGENTA}%s${NC}\n" "Current include path: " "${INCLUDE_PATH}"
+	print_error_fmt "Error: missing arguments"
+	print_error_fmt "Usage: ./lib_checker.sh [ function_name | all ] [-v]"
+	print_error_fmt	"Options:"
+	print_error_fmt	"	-v: verbose mode, print tests results"
 	exit 1;
 fi
 
-# Clear screen
-clear
+# Compile libft
+compile_libft() {
+make -C ${LIBDIR} fclean && make -C ${LIBDIR}
+if [ "$?" -ne 0 ]; then
+	print_error_fmt "Libft compilation failed"
+	exit 1;
+fi
+}
 
 # Save parameters
 ALL=0
@@ -173,6 +192,7 @@ print_summary(){
 
 # Create output directory if non existant
 [ ! -d ${OUTDIR} ] && mkdir ${OUTDIR}
+[ ! -d out ] && mkdir out
 
 # Erase output/output_summary
 printf "" > ${OUTDIR}/output_summary

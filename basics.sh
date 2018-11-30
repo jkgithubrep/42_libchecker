@@ -1,4 +1,5 @@
 #!/bin/sh
+#basic checks by apion
 
 NC="\e[0m"
 BOLD="\e[1m"
