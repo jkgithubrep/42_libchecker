@@ -52,6 +52,10 @@ if [ "$?" -ne 0 ]; then
 fi
 }
 
+if [ ! -f ${LIBDIR}/libft.a ]; then
+	compile_libft
+fi
+
 # Save parameters
 ALL=0
 TEST_FCT=""
