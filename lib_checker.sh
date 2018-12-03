@@ -3,6 +3,11 @@
 #Clear screen
 clear && sleep .1
 
+# Functions in project
+libc="memset bzero memcpy memccpy memmove memchr memcmp strlen strdup strcpy strncpy strcat strncat strlcat strchr strrchr strstr strnstr strcmp strncmp atoi isalpha isdigit isalnum isascii isprint toupper tolower"
+supp="memalloc memdel strnew strdel strclr striter striteri strmap strmapi strequ strnequ strsub strjoin strtrim strsplit itoa putchar putstr putendl putnbr putchar_fd putstr_fd putendl_fd putnbr_fd"
+bonus="lstnew lstdelone lstdel lstadd lstiter lstmap"
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -200,6 +205,46 @@ print_summary(){
 
 # Erase output/output_summary
 printf "" > ${OUTDIR}/output_summary
+
+check_files()
+	{
+		error=0
+		for i in $1; do
+			file="ft_$i.c"
+			if [ ! -f ${LIBDIR}/$file ]; then
+				echo "missing: $file"
+				(( error+=1 ))
+			fi
+		done
+		[ $error -eq 0 ] && echo "ok"
+	}
+
+
+########################
+#  PRELIMINARY TESTS   #
+########################
+
+if ["${TEST_FCT}" = "basics" ]; then
+
+	#Check norm
+	source ${LIBDIR}/check_norm.sh
+
+	#Check for libc functions
+	printf "Check for libc functions...\n"
+	check_files ${libc}
+	prinf "\n"
+
+	#Check for mandatory functions
+	printf "Check for mandatory functions...\n"
+	check_files ${supp}
+	prinf "\n"
+
+	#Check for bonus functions
+	printf "Check for bonus functions...\n"
+	check_files ${bonus}
+	prinf "\n"
+
+fi
 
 ########################
 # FONCTIONS DE LA LIBC #
