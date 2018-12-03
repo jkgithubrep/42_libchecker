@@ -216,7 +216,7 @@ check_files()
 				(( error+=1 ))
 			fi
 		done
-		[ $error -eq 0 ] && echo "ok"
+		[ $error -eq 0 ] && printf "${GREEN}Good! All functions found.${NC}\n"
 	}
 
 
@@ -227,23 +227,31 @@ check_files()
 if ["${TEST_FCT}" = "basics" ]; then
 
 	#Check norm
-	source ${LIBDIR}/check_norm.sh
+	working_dir=`pwd`
+	cd ${LIBDIR}
+	if [ ! -f ${LIBDIR}/check_norm.sh ]; then
+		printf "File ${MAGENTA}check_norm.sh${NC} not found.\n"	
+		printf "The file should be in the project directory.\n"	
+	else
+		source ${LIBDIR}/check_norm.sh
+	fi
 
 	#Check for libc functions
 	printf "Check for libc functions...\n"
 	check_files ${libc}
-	prinf "\n"
+	printf "\n"
 
 	#Check for mandatory functions
 	printf "Check for mandatory functions...\n"
 	check_files ${supp}
-	prinf "\n"
+	printf "\n"
 
 	#Check for bonus functions
 	printf "Check for bonus functions...\n"
 	check_files ${bonus}
-	prinf "\n"
+	printf "\n"
 
+	cd ${working_dir}
 fi
 
 ########################
