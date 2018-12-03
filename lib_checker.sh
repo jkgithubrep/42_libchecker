@@ -224,7 +224,7 @@ check_files()
 #  PRELIMINARY TESTS   #
 ########################
 
-if ["${TEST_FCT}" = "basics" ]; then
+if [ "${TEST_FCT}" = "basics" ]; then
 
 	#Check norm
 	working_dir=`pwd`
@@ -250,6 +250,35 @@ if ["${TEST_FCT}" = "basics" ]; then
 	printf "Check for bonus functions...\n"
 	check_files ${bonus}
 	printf "\n"
+
+	#Check for other functions
+	printf "Check for other functions...\n"
+	other_fct=0
+	files=`echo "$libc $supp $bonus" | sed -e 's/^/ft_/' -e 's/$/.c/' -e 's/ /.c ft_/g'`
+	for i in *.c; do
+		case "$files" in
+			*$i*) ;;
+			*) 
+				echo $i
+				(( other_fct+= 1 ))
+			;;
+		esac
+	done
+	printf "%d extra functions\n" $other_fct
+
+	#Check for prototypes
+	printf "Check for prototypes functions...\n"
+	error=0;
+	files=`echo "$libc $supp $bonus" | sed -e 's/^/ft_/' -e 's/ / ft_/g'`
+	for i in $files; do
+		grep -q $i libft.h
+		if [[ $? -ne 0 ]]; then
+			echo "missing: $i"
+			(( error+=1 ))
+		fi
+	done
+	[ $error -eq 0 ] && printf "${GREEN}Good! No missing prototypes.${NC}"
+
 
 	cd ${working_dir}
 fi
