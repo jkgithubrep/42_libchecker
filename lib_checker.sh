@@ -216,7 +216,7 @@ check_files()
 				(( error+=1 ))
 			fi
 		done
-		[ $error -eq 0 ] && printf "${GREEN}Good! All functions found.${NC}\n"
+		[ $error -eq 0 ] && printf "⟹  ${GREEN}Good! All functions found.${NC}\n"
 	}
 
 
@@ -259,12 +259,12 @@ if [ "${TEST_FCT}" = "basics" ]; then
 		case "$files" in
 			*$i*) ;;
 			*) 
-				echo $i
+				echo "> $i"
 				(( other_fct+= 1 ))
 			;;
 		esac
 	done
-	printf "%d extra functions\n" $other_fct
+	printf "\n→ %d extra functions\n" $other_fct
 
 	#Check for prototypes
 	printf "Check for prototypes functions...\n"
@@ -273,11 +273,11 @@ if [ "${TEST_FCT}" = "basics" ]; then
 	for i in $files; do
 		grep -q $i libft.h
 		if [[ $? -ne 0 ]]; then
-			echo "missing: $i"
+			echo "${RED}missing: $i${NC}"
 			(( error+=1 ))
 		fi
 	done
-	[ $error -eq 0 ] && printf "${GREEN}Good! No missing prototypes.${NC}"
+	[ $error -eq 0 ] && printf "⟹  ${GREEN}Good! No missing prototypes.${NC}\n"
 
 
 	cd ${working_dir}
