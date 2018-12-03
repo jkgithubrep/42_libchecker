@@ -232,6 +232,7 @@ if [ "${TEST_FCT}" = "basics" ]; then
 	if [ ! -f ${LIBDIR}/check_norm.sh ]; then
 		printf "File ${MAGENTA}check_norm.sh${NC} not found.\n"	
 		printf "The file should be in the project directory.\n"	
+		printf "\n"
 	else
 		source ${LIBDIR}/check_norm.sh
 	fi
@@ -264,10 +265,10 @@ if [ "${TEST_FCT}" = "basics" ]; then
 			;;
 		esac
 	done
-	printf "\n→ %d extra functions\n" $other_fct
+	printf "↳  %d extra functions\n" $other_fct
 
 	#Check for prototypes
-	printf "Check for prototypes functions...\n"
+	printf "\nCheck for prototypes functions...\n"
 	error=0;
 	files=`echo "$libc $supp $bonus" | sed -e 's/^/ft_/' -e 's/ / ft_/g'`
 	for i in $files; do
