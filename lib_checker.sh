@@ -1,8 +1,5 @@
 #!/bin/sh
 
-#Clear screen
-clear && sleep .1
-
 # Functions in project
 libc="memset bzero memcpy memccpy memmove memchr memcmp strlen strdup strcpy strncpy strcat strncat strlcat strchr strrchr strstr strnstr strcmp strncmp atoi isalpha isdigit isalnum isascii isprint toupper tolower"
 supp="memalloc memdel strnew strdel strclr striter striteri strmap strmapi strequ strnequ strsub strjoin strtrim strsplit itoa putchar putstr putendl putnbr putchar_fd putstr_fd putendl_fd putnbr_fd"
@@ -42,7 +39,10 @@ if [ $# -eq 0 ]; then
 	printf "${RED}%s${MAGENTA}%s${NC}\n" "Current lib path: " "${LIBDIR}"
 	printf "${RED}%s${MAGENTA}%s${NC}\n" "Current include path: " "${INCLUDE_PATH}"
 	print_error_fmt "Error: missing arguments"
-	print_error_fmt "Usage: ./lib_checker.sh [ function_name | all ] [-v]"
+	print_error_fmt "Usage: ./lib_checker.sh [ function_name | all | basics ] [-v]"
+	print_error_fmt	"  > function_name        Launch the test for specified libc function (ex: ./lib_checker.sh memcmp)"
+	print_error_fmt	"  > all                  Launch all the tests"
+	print_error_fmt	"  > basics               Launch some basic tests (mandatory functions, additional functions, prototypes)"
 	print_error_fmt	"Options:"
 	print_error_fmt	"	-v: verbose mode, print tests results"
 	exit 1;
