@@ -19,7 +19,7 @@ The following functions are tested : `memset, bzero, memcpy, memccpy, memmove, m
 
 ## Disclaimer
 
-This was my first experience with shell scripting!
+This was my first try at shell scripting!
 
 ## Credits
 _basics_ checks coded by apion
